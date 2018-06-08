@@ -18,10 +18,20 @@ public class Main {
             count[1][i] = start(true);
             System.out.println(i);
         }
-        double total = IntStream.of(count[0]).average().getAsDouble();
-        System.out.println("Total by Dichotomy: " + total);
-        total = IntStream.of(count[1]).average().getAsDouble();
-        System.out.println("Total by Random: " + total);
+        double[] computes = compute(count[0]);
+        System.out.println("Average by Dichotomy: " + computes[0]);
+        System.out.println("Standard Deviation by Dichotomy: " + computes[1]);
+
+        computes = compute(count[1]);
+        System.out.println("Average by Random: " + computes[0]);
+        System.out.println("Standard Deviation by Random: " + computes[1]);
+    }
+
+    private static double[] compute(int... numbers) {
+        double mean = IntStream.of(numbers).average().getAsDouble();
+        double deviation = Math.sqrt(IntStream.of(numbers).asDoubleStream()
+                .reduce(0, (sum, num) -> sum + Math.pow(num - mean, 2)) / numbers.length);
+        return new double[] {mean, deviation};
     }
 
     public static int start(boolean random) {
