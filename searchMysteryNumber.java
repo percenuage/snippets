@@ -12,13 +12,16 @@ public class Main {
     private static final int LOOP = 100000;
 
     public static void main(String[] args) {
-        int[] count = new int[LOOP];
+        int[][] count = new int[2][LOOP];
         for (int i = 0; i < LOOP; i++) {
-            count[i] = start(false);
+            count[0][i] = start(false);
+            count[1][i] = start(true);
             System.out.println(i);
         }
-        double total = IntStream.of(count).average().getAsDouble();
-        System.out.println(total);
+        double total = IntStream.of(count[0]).average().getAsDouble();
+        System.out.println("Total by Dichotomy: " + total);
+        total = IntStream.of(count[1]).average().getAsDouble();
+        System.out.println("Total by Random: " + total);
     }
 
     public static int start(boolean random) {
